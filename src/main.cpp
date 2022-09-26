@@ -21,11 +21,9 @@ void loop()
 {
   float iVal;
   int aVal;
-  float resolution;
 
-  resolution = 255 / (float)1024;
   aVal = analogRead(A0);
-  iVal = resolution * aVal;
+  iVal = map(aVal, 0, 1023, 0, 255);
 
   lastButtonState = buttonState;
   buttonState = digitalRead(D5);
@@ -37,17 +35,8 @@ void loop()
 
   if (led == 1)
   {
-    Serial.println(iVal);
     analogWrite(D4, iVal);
   }else{
     digitalWrite(D4, HIGH);
   }
-
-  // The variable resistor is used to control the LED brightness
-
-  // Pressing the push button will turn off the LED, regardless of its brightness
-  // Pessing the button again will turn on the LED, at the brightness level indicated by the variable resistor
-
-  // While the LED is OFF, rotating the variable resistor must not cause the LED to illuminate
-  // When first powered up, the LED must be off regardless of the variable resistor settings
 }
