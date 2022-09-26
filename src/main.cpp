@@ -11,10 +11,10 @@ void setup()
 {
   Serial.begin(115200);
 
-  pinMode(D5, INPUT_PULLUP);
-  pinMode(D4, OUTPUT);
+  pinMode(D5, INPUT_PULLUP); //Button Pin
+  pinMode(D4, OUTPUT); //On Board LED
 
-  buttonState = digitalRead(D5);
+  buttonState = digitalRead(D5); //Sets the button state
 }
 
 void loop()
@@ -22,21 +22,23 @@ void loop()
   float iVal;
   int aVal;
 
-  aVal = analogRead(A0);
-  iVal = map(aVal, 0, 1023, 0, 255);
+  aVal = analogRead(A0); //Reads the value from the variable resistor
+  iVal = map(aVal, 0, 1023, 0, 255); //Maps the variable resistor value to the LED value
 
   lastButtonState = buttonState;
   buttonState = digitalRead(D5);
 
-  if (lastButtonState == HIGH && buttonState == LOW)
+  if (lastButtonState == HIGH && buttonState == LOW) //If button is pressed
   {
-    led = !led;
+    led = !led; //If LED is On, turn off. If LED is Off, turn on.
   }
 
-  if (led == 1)
+  if (led == 1) //If LED State is On
   {
     analogWrite(D4, iVal);
-  }else{
+  }else{ //If LED State is Off
     digitalWrite(D4, HIGH);
   }
+
+  delay(1); //Delay added because of possible double button press
 }
